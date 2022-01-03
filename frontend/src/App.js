@@ -8,8 +8,8 @@ import {
 
 import Users from './users/pages/Users';
 import NewPlace from './places/pages/NewPlace';
-import MainNavigation from './shared/components/UIElements/Navigation/MainNavigation';
-import MainHearder from './shared/components/UIElements/Navigation/MainHeader';
+import MainNavigation from './shared/UIElements/Navigation/MainNavigation';
+import MainHearder from './shared/UIElements/Navigation/MainHeader';
 import UserPlaces from './places/pages/UserPlaces';
 const App = () => {
   return (
