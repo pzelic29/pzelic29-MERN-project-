@@ -8,10 +8,14 @@ import {
 
 import Users from './users/pages/Users';
 import NewPlace from './places/pages/NewPlace';
+import MainNavigation from './shared/components/UIElements/Navigation/MainNavigation';
+import MainHearder from './shared/components/UIElements/Navigation/MainHeader';
 
 const App = () => {
   return (
     <Router>
+      <MainNavigation />
+      <main>
       <Switch>
         <Route path="/" exact>
           <Users />
@@ -21,6 +25,7 @@ const App = () => {
         </Route>
         <Redirect to="/" />
       </Switch>
+      </main>
     </Router>
   );
 };
