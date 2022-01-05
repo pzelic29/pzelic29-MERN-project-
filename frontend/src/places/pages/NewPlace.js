@@ -1,5 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
-
+import React from 'react';
 
 import Input from '../../shared/FormElements/Input';
 import Button from '../../shared/FormElements/Button';
@@ -7,34 +6,35 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH
 } from '../../shared/util/validators';
-import { useForm } from '../../shared/hooks/form-hook'; 
+import { useForm } from '../../shared/hooks/form-hook';
 import './NewPlace.css';
 
-
 const NewPlace = () => {
-  const [formState,inputHandler] = useForm({
-    title: {
-      value: '',
-      isValid: false
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false
+      },
+      description: {
+        value: '',
+        isValid: false
+      },
+      address: {
+        value: '',
+        isValid: false
+      }
     },
-    description: {
-      value: '',
-      isValid: false
-    },
-    address: {
-      value: '',
-      isValid: false
-    }
-  },false);
-  
-  
-  const placeAddHandler = event =>{
+    false
+  );
+
+  const placeSubmitHandler = event => {
     event.preventDefault();
-    console.log(formState.inputs); //now console.log - after send this to backend!!!
+    console.log(formState.inputs); // send this to the backend!
   };
 
   return (
-    <form className="place-form" onSubmit={placeAddHandler}>
+    <form className="place-form" onSubmit={placeSubmitHandler}>
       <Input
         id="title"
         element="input"
