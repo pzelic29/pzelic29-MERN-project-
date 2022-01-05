@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Card from '../../shared/UIElements/Card';
+import Card from '../../shared//UIElements/Card';
 import Button from '../../shared/FormElements/Button';
 import Modal from '../../shared/UIElements/Modal';
 import Map from '../../shared/UIElements/Map';
