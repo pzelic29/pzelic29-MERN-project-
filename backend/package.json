@@ -10,10 +10,11 @@
   "author": "Petra",
   "license": "ISC",
   "dependencies": {
+    "./v1": "./dist/v1.js",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
-    "uuid": "^8.3.2",
-    "./v1": "./dist/v1.js"
+    "express-validator": "^6.14.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

@@ -1,4 +1,6 @@
 const uuid =require("uuid");
+
+const { validationResult} = require('express-validator');
 const HttpError = require('../models/htttp-error');
 
 let DUMMY_PLACES = [
@@ -26,7 +28,7 @@ const getPlaceById = (req, res, next) => {
   if (!place) {
     throw new HttpError('Could not find a place.', 404);
   }
-
+0
   res.json({ place }); // => { place } => { place: place }
 };
 
@@ -48,30 +50,46 @@ const getPlacesByUserId = (req, res, next) => {
 };
 
 const createPlace = (req, res, next)=>{
-  const { title,description,coordinates, address,creator} = req.body;
+  const errors = validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    throw new HttpError('Invalid inputs passed, please check your data.', 422);
+  }
+
+  const { title, description, coordinates, address, creator } = req.body;
+
+  // const title = req.body.title;
   const createdPlace = {
     id: uuid.v4(),
     title,
     description,
-    location:coordinates,
+    location: coordinates,
     address,
     creator
   };
-  DUMMY_PLACES.push(createdPlace);
-  res.status(201).json({place: createdPlace});
+
+  DUMMY_PLACES.push(createdPlace); //unshift(createdPlace)
+
+  res.status(201).json({ place: createdPlace });
 };
 
-const updatePlaceById=(req,res,next)=>{
-  const { title,description} = req.body;
-  const placeId=req.params.placeid;
+const updatePlace = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new HttpError('Invalid inputs passed, please check your data.', 422);
+  }
 
-  const updatedPlace={...DUMMY_PLACES.find(p => p.id===placeId)};
-  const placeIndex=DUMMY_PLACES.findIndex(p=>p.id===placeId);
+  const { title, description } = req.body;
+  const placeId = req.params.pid;
+
+  const updatedPlace = { ...DUMMY_PLACES.find(p => p.id === placeId) };
+  const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
   updatedPlace.title = title;
-  updatePlace.description=description;
+  updatedPlace.description = description;
 
-  DUMMY_PLACES[placeIndex]=updatedPlace;
-  res.status(200).json({place: updatedPlace});
+  DUMMY_PLACES[placeIndex] = updatedPlace;
+
+  res.status(200).json({ place: updatedPlace });
 };
 const deletePlace=(req,res,next)=>{
   const placeId=req.params.placeid
@@ -81,5 +99,5 @@ const deletePlace=(req,res,next)=>{
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
-exports.updatePlaceById=updatePlaceById;
+exports.updatePlace=updatePlace;
 exports.deletePlace=deletePlace;
