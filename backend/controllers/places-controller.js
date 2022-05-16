@@ -92,9 +92,12 @@ const updatePlace = (req, res, next) => {
   res.status(200).json({ place: updatedPlace });
 };
 const deletePlace=(req,res,next)=>{
-  const placeId=req.params.placeid
-  DUMMY_PLACES=DUMMY_PLACES.filter(p=>p.id!==placeId);
-  res.status(200).json({message: 'deleted place.'});
+  const placeId = req.params.pid;
+  if (!DUMMY_PLACES.find(p => p.id === placeId)) {
+    throw new HttpError('Could not find a place for that id.', 404);
+  }
+  DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId);
+  res.status(200).json({ message: 'Deleted place.' });
 };
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
