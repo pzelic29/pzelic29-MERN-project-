@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "./v1": "./dist/v1.js",
+    "axios": "^0.27.2",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "express-validator": "^6.14.0",
