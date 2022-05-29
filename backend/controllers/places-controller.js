@@ -8,20 +8,7 @@ const Place = require('../models/place');
 const User = require('../models/user');
 
 
-let DUMMY_PLACES = [
-  {
-    id: 'p1',
-      title: 'Sagrada  Familia',
-      description: 'Sagrada Família is a large unfinished minor basilica in the Eixample district of Barcelona, Catalonia, Spain. Designed by the Catalan architect Antoni Gaudí, his work on the building is part of a UNESCO World Heritage Site. On 7 November 2010, Pope Benedict XVI consecrated the church and proclaimed it a minor basilica',
-      imageUrl: 'https://image.dnevnik.hr/media/images/804x607/Sep2018/61565210.jpg',
-      address: 'C. de Mallorca, 401, 08013 Barcelona, Spain',
-      location: {
-        lat: 41.403611,
-        lng: 21.174444
-      },
-      creator: 'u1'
-  }
-];
+
 
 const getPlaceById =async (req, res, next) => {
   const placeId = req.params.placeid; 
@@ -43,20 +30,21 @@ const getPlaceById =async (req, res, next) => {
 
 const getPlacesByUserId = async(req, res, next) => {
   const userId = req.params.userid;
-  let places;
+  //let places;
+  let userWithPlaces;
   try{
-  places =await Place.find({ creator: userId });
+    userWithPlaces = await User.findById(userId).populate('places');
   }catch (err){
     const error=new HttpError('Somethnig went wrong',500);
     return next(error);
   }
-  if (!places || places.length===0) {
+  if (!userWithPlaces || userWithPlaces.length===0) {
     return next(
       new HttpError('Could not find a place.', 404)
     );
   }
 
-  res.json({ places: places.map(place => place.toObject({getters: true})) });
+  res.json({ places: userWithPlaces.places.map(place => place.toObject({getters: true})) });
 };
 
 const createPlace = async (req, res, next)=>{
@@ -76,7 +64,7 @@ const createPlace = async (req, res, next)=>{
     return next(error);
   }
 
-  // const title = req.body.title;
+  
   const createdPlace = new Place({
     title,
     description,
