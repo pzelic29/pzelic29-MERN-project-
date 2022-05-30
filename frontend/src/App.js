@@ -11,7 +11,7 @@ import NewPlace from './places/pages/NewPlace';
 import UserPlaces from './places/pages/UserPlaces';
 import UpdatePlace from './places/pages/UpdatePlace';
 import Login from './users/pages/Login';
-import MainNavigation from './shared/UIElements/Navigation/MainNavigation';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { LoginContext } from './shared/context/login-context';
 
 
