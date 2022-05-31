@@ -1,39 +1,42 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 
 import PlaceList from '../components/PlaceList';
-
-const DUMMY_PLACES = [
-  {
-    id: 'p1',
-    title: 'Sagrada  Familia',
-    description: 'Sagrada Família is a large unfinished minor basilica in the Eixample district of Barcelona, Catalonia, Spain. Designed by the Catalan architect Antoni Gaudí, his work on the building is part of a UNESCO World Heritage Site. On 7 November 2010, Pope Benedict XVI consecrated the church and proclaimed it a minor basilica',
-    imageUrl: 'https://image.dnevnik.hr/media/images/804x607/Sep2018/61565210.jpg',
-    address: 'C. de Mallorca, 401, 08013 Barcelona, Spain',
-    location: {
-      lat: 41.403611,
-      lng: 2.174444
-    },
-    creator: 'u1'
-  },
-  {
-    id: 'p2',
-    title: 'Sagrada  Familia!',
-    description: 'Sagrada Família is a large unfinished minor basilica in the Eixample district of Barcelona, Catalonia, Spain. Designed by the Catalan architect Antoni Gaudí, his work on the building is part of a UNESCO World Heritage Site. On 7 November 2010, Pope Benedict XVI consecrated the church and proclaimed it a minor basilica',
-    imageUrl: 'https://image.dnevnik.hr/media/images/804x607/Sep2018/61565210.jpg',
-    address: 'C. de Mallorca, 401, 08013 Barcelona, Spain',
-    location: {
-      lat: 41.403611,
-      lng: 2.174444
-    },
-    creator: 'u2'
-  }
-];
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import {useHttpClient} from '../../shared/hooks/http-hook';
 
 const UserPlaces = () => {
+  const [loadedPlaces ,setLoadedPlace] =useState();
+  const {isLoading, error, sendRequest, clearError} =useHttpClient();
+
   const userId = useParams().userId;
-  const loadedPlaces = DUMMY_PLACES.filter(place => place.creator === userId);
-  return <PlaceList items={loadedPlaces} />;
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:3001/api/places/user/${userId}`
+        );
+        setLoadedPlace(responseData.places);
+      } catch (err) {
+        
+      }
+    };
+    fetchPlaces();
+  },[sendRequest, userId]);
+
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} />}
+    </React.Fragment>
+  );
 };
 
 export default UserPlaces;

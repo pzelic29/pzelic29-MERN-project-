@@ -1,4 +1,4 @@
-import React , {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -14,16 +14,19 @@ import Login from './users/pages/Login';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { LoginContext } from './shared/context/login-context';
 
-
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] =useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(false);
 
-  const login=useCallback(() => {
+  const login = useCallback(uid => {
     setIsLoggedIn(true);
-  }, [])
-  const logout=useCallback(() => {
+    setUserId(uid);
+  }, []);
+
+  const logout = useCallback(() => {
     setIsLoggedIn(false);
-  }, [])
+    setUserId(null);
+  }, []);
 
   let routes;
 
@@ -64,7 +67,12 @@ const App = () => {
 
   return (
     <LoginContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        userId: userId,
+        login: login,
+        logout: logout
+      }}
     >
       <Router>
         <MainNavigation />
@@ -73,6 +81,5 @@ const App = () => {
     </LoginContext.Provider>
   );
 };
-
 
 export default App;

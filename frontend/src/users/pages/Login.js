@@ -63,7 +63,7 @@ const Login = () => {
 
     if (isLoginMode) {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           'http://localhost:3001/api/users/login',
           'POST',
           JSON.stringify({
@@ -74,11 +74,11 @@ const Login = () => {
             'Content-Type': 'application/json'
           }
         );
-        login.login();
+        login.login(responseData.user.id);
       } catch (err) {}
     } else {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           'http://localhost:3001/api/users/signup',
           'POST',
           JSON.stringify({
@@ -91,7 +91,7 @@ const Login = () => {
           }
         );
 
-        login.login();
+        login.login(responseData.user.id);
       } catch (err) {}
     }
   };
@@ -144,4 +144,5 @@ const Login = () => {
     </React.Fragment>
   );
 };
+
 export default Login;
