@@ -6,7 +6,7 @@
  - Finalna verzija
  - Obrana projekta
 # Opis projekta
-Potrebno je napisati kratki opis projekta. Opis mora sadržavati popis funkcionalnosti koje će biti implementirane (npr. "prijava korisnika", "unos novih poruka", "pretraživanje poruka po autoru" itd...) Napraviti ću aplikaciju za praćenje osobnih prihoda i rashoda. Kroz aplikaciju će se moći ...
+Ideja je napraviti aplikaciju za djeljenje najdražih mjesta koje je korisnik posjetio ili želi posjetiti(atrakcije,znamenitosti,muzeji,kafići,restorani) s drugim korisnicima. Svojevrsna Places to do lista.Korisnik će moći gledati,uređivati, brisati i dodavati nova mjesta, ali neće moći brisati ili uređivati mjesta drugih korisnika(moći će ih samo pregledavati). Samo logirani korinisci će moći dodavati nova mjesta. Biti će omogućena autentifikacija i autorizacija korisnika. Projekt će imati nekoliko stranica homepage(prikaz svih korisnika)-svaki korisnik će imati prikazanog avatara,username i broj mjesta koje je dodao, login/signup,stranica za dodavanje novih mjesta, stranica za pregled mjesta korisnika. Klikom na korisnika prikazat će se njegova mjesta(svako mjesto će imati sliku, kratki i duži opis, lokaciju, GPS - prikaz na karti (realizacija preko API-ja)), mogućnost brisanja i uređivanja-klikom na uredi korisniku će se prikazati strnica za uređivanje mjesta. Stranica sa Loginom/Signupom će imati switch mode ovisno o tome postoji li korisnik ili ne postoji.
 
 # Početna struktura aplikacije
 Potrebno je inicijalizirati početnu strukturu backend i frontend aplikacija. Aplikacije moraju biti u odvojenim mapama koje su već inicijalizirane. Ukoliko radite aplikaciju sa statičkim frontend sadržajem, onda u mapi mora biti izvorni kôd aplikacije
