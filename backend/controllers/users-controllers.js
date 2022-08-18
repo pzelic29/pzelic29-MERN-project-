@@ -48,9 +48,9 @@ const signup = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
+    image:  req.file.path,
     password,
-    places: []
+    places: [],
   });
 
   try {

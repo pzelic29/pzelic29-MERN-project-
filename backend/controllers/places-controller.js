@@ -1,4 +1,4 @@
-const uuid =require("uuid");
+const fs = require('fs');
 const { validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -8,15 +8,17 @@ const Place = require('../models/place');
 const User = require('../models/user');
 
 
-
-
 const getPlaceById =async (req, res, next) => {
   const placeId = req.params.placeid; 
+ 
   let place;
   try{
     place=await Place.findById(placeId);
   }catch (err) {
-    const error=new HttpError('Somethnig went wrong, could not finde a place',500);
+    const error=new HttpError(
+      'Somethnig went wrong, could not finde a place',
+      500
+      );
     return next(error);
   }
 
@@ -51,7 +53,7 @@ const createPlace = async (req, res, next)=>{
   const errors = validationResult(req);
   console.log(errors);
   if (!errors.isEmpty()) {
-    next(new HttpError('Invalid inputs passed, please check your data.', 422));
+   return  next(new HttpError('Invalid inputs passed, please check your data.', 422));
   }
 
   const { title, description, address, creator } = req.body;
@@ -70,7 +72,7 @@ const createPlace = async (req, res, next)=>{
     description,
     address,
     location:coordinates,
-    image:'https://image.dnevnik.hr/media/images/804x607/Sep2018/61565210.jpg',
+    image: req.file.path,
     creator
   });
 
@@ -115,7 +117,9 @@ const createPlace = async (req, res, next)=>{
 const updatePlace = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new HttpError('Invalid inputs passed, please check your data.', 422);
+    return next(
+      new HttpError('Invalid inputs passed, please check your data.', 422)
+    );
   }
 
   const { title, description } = req.body;
@@ -158,7 +162,7 @@ const deletePlace=async (req,res,next)=>{
     const error = new HttpError('Could not find place for this id.', 404);
     return next(error);
   }
-
+  const imagePath = place.image;
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -173,7 +177,10 @@ const deletePlace=async (req,res,next)=>{
     );
     return next(error);
   }
-
+  fs.unlink(imagePath, err => {
+    console.log(err);
+  });
+  
   res.status(200).json({ message: 'Deleted place.' });
 };
 
