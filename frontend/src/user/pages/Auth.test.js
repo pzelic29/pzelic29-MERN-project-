@@ -6,7 +6,8 @@ test("", () => {
     const component = render(<Auth></Auth>)
     const btn = component.getByText("LOGIN")
 
-    fireEvent.click(btn)
     //component.debug()
-    expect(component.container.querySelector('#btnswitch')).toBeTruthy()
+    expect(
+        component.container.querySelector('#btn')
+        ).toBeFalsy()
 })
